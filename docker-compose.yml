@@ -1,0 +1,10 @@
+version: '2'
+services:
+  app:
+    build: .
+    working_dir: /hyperloop_app
+    command: bundle exec ruby app.rb
+    volumes:
+      - .:/hyperloop_app
+    ports:
+      - "4567:4567"
