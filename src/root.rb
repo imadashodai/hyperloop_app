@@ -1,9 +1,11 @@
-require_relative "show_confirmation"
+require_relative "user_data"
 class Root
   include Hyperloop::Component::Mixin
 
-  state header_val: 'Hello World!'
-  state row: {}
+  # to show input form
+  state show_form: true
+  state user_data: {}
+
   state name: ""
   state kana: ""
   state sex: 1
@@ -20,7 +22,8 @@ class Root
 
   render(DIV) do
     DIV(class: 'formdiv') do
-      show_input
+      show_input if state.show_form
+      show_confirmation(state.user_data) if !state.show_form
     end
   end
 
@@ -121,23 +124,6 @@ class Root
       end
     end
 
-    #DIV(class: 'form-submit') do
-    #  BUTTON(type: :button, class: 'btn btn-success btn-block') { 'Create an new event' }
-    #    .on(:click) { GetRow.run(
-    #      name: state.name,
-    #      kana: state.kana,
-    #      sex: state.sex,
-    #      tel:  state.tel,
-    #      email: state.email,
-    #      address: state.address,
-    #      check_in: state.check_in,
-    #      check_out: state.check_out,
-    #      number: state.number,
-    #      parking_number: state.parking_number,
-    #      remark: state.remark,
-    #    )}
-    #  end
-    #end
     user_data = {
       name: state.name,
       kana: state.kana,
@@ -151,37 +137,16 @@ class Root
       parking_number: state.parking_number,
       remark: state.remark,
     }
-    ShowComfirmation(user_data: user_data) # these args should set hash
+
+    mutate.user_data user_data
+
+    DIV(class: "to-next") do
+      BUTTON(class: "btn") { "Next >>" }.on(:click) { mutate.show_form false }
+    end
+  end
+
+  def show_confirmation(user_data)
+    UserData(user_data: user_data)
   end
 end
 
-class GetRow < Hyperloop::Operation
-
-  param :name
-  param :kana
-  param :sex
-  param :tel
-  param :email
-  param :address
-  param :check_in
-  param :check_out
-  param :number
-  param :parking_number
-  param :remark
-
-  step {HTTP.post(
-    '/sheet1/create',
-    payload: {
-      name: params.name,
-      kana: params.kana,
-      sex: params.sex,
-      tel: params.tel,
-      email: params.email,
-      address: params.address,
-      check_in: params.check_in,
-      check_out: params.check_out,
-      number: params.number,
-      parking_number: params.parking_number,
-      remark: params.remark,
-    }.to_json)}
-end

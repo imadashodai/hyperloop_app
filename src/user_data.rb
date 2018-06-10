@@ -1,23 +1,5 @@
 require_relative "create_user"
 
-class ShowComfirmation
-  include Hyperloop::Component::Mixin
-
-  param :user_data, type: [Hash]
-  state show_confirmation: false
-
-  def render
-    DIV(class: "to-next") do
-      BUTTON(class: "btn") { "Next >>" }.on(:click) { mutate.show_confirmation true }
-      show_confirmation(user_data: params.user_data) if state.show_confirmation
-    end
-  end
-
-  def show_confirmation(user_data)
-    UserData(user_data)
-  end
-end
-
 class UserData < Hyperloop::Component
 
   param :user_data, type: [Hash]
