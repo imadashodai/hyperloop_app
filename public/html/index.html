@@ -16,7 +16,18 @@
 
 <body>
   <div class="container">
+    <ul class="nav nav-tabs">
+      <li class="nav-item"><a href="/" class="nav-link active">予約登録</a></li>
+      <li class="nav-item"><a href="/users" class="nav-link">予約者一覧</a></li>
+    </ul>
     <div data-hyperloop-mount="Root" />
-    <script src="js/bundle.js"></script>
+    <script src="js/bundle.js">
+    </script>
+    <script>
+       $('.nav-link').on('click',function(){
+        $('.nav-link').removeClass('active')
+        $(this).addClass("active")
+      })
+    </script>
   </div>
 </body>
