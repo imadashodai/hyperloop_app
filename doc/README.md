@@ -16,5 +16,5 @@ $ docker-compose run app bash
 # JSビルド方法
 
 ```
-$ docker-compose run app bundle exec opal -I. -cOEM src/root.rb > public/js/bundle.js
+$ docker-compose run app bundle exec opal -I. -c src/root.rb > public/js/bundle.js 
 ```

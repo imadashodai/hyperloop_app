@@ -1,3 +1,4 @@
+require_relative "show_confirmation"
 class Root
   include Hyperloop::Component::Mixin
 
@@ -40,6 +41,7 @@ class Root
           mutate.kana e.target.value
         end
       end
+
     end
 
     DIV(class: 'div-sex') do
@@ -119,23 +121,38 @@ class Root
       end
     end
 
-    DIV(class: 'form-submit') do
-      BUTTON(type: :button, class: 'btn btn-success btn-block') { 'Create an new event' }
-        .on(:click) { GetRow.run(
-          name: state.name,
-          kana: state.kana,
-          sex: state.sex,
-          tel:  state.tel,
-          email: state.email,
-          address: state.address,
-          check_in: state.check_in,
-          check_out: state.check_out,
-          number: state.number,
-          parking_number: state.parking_number,
-          remark: state.remark,
-        )}
-      end
-    end
+    #DIV(class: 'form-submit') do
+    #  BUTTON(type: :button, class: 'btn btn-success btn-block') { 'Create an new event' }
+    #    .on(:click) { GetRow.run(
+    #      name: state.name,
+    #      kana: state.kana,
+    #      sex: state.sex,
+    #      tel:  state.tel,
+    #      email: state.email,
+    #      address: state.address,
+    #      check_in: state.check_in,
+    #      check_out: state.check_out,
+    #      number: state.number,
+    #      parking_number: state.parking_number,
+    #      remark: state.remark,
+    #    )}
+    #  end
+    #end
+    user_data = {
+      name: state.name,
+      kana: state.kana,
+      sex: state.sex,
+      tel: state.tel,
+      email: state.email,
+      address: state.address,
+      check_in: state.check_in,
+      check_out: state.check_out,
+      number: state.number,
+      parking_number: state.parking_number,
+      remark: state.remark,
+    }
+    ShowComfirmation(user_data: user_data) # these args should set hash
+  end
 end
 
 class GetRow < Hyperloop::Operation
